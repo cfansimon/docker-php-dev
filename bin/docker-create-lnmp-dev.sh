@@ -141,7 +141,7 @@ echo "${ip} ${DOMAIN}.local" >> /etc/hosts
 
 echo '****************** login info***********************'
 echo "1. ssh login: ssh root@${DOMAIN}"
-echo "2. mysql login: mysql -h ${DOMAIN}.local -uroot"
+echo "2. mysql login: mysql -h ${DOMAIN}.local -uroot -proot"
 echo "3. docker exec -ti ${DOMAIN} bash"
 echo '****************** storage info***********************'
 echo "1. mysql_data: ${mysql_dir}"
