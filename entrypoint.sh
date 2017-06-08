@@ -55,7 +55,7 @@ init_mysql(){
     fi
 
     "${mysql[@]}" <<-EOSQL
-        UPDATE mysql.user SET authentication_string=PASSWORD("root") WHERE user='root';
+        UPDATE mysql.user SET Password=PASSWORD("root") WHERE user='root';
       	CREATE USER 'root'@'%' IDENTIFIED BY 'root';
       	GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
       	FLUSH PRIVILEGES ;
