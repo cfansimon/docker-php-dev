@@ -58,7 +58,7 @@ init_mysql(){
         UPDATE mysql.user SET Password=PASSWORD("root") WHERE user='root';
       	CREATE USER 'root'@'%' IDENTIFIED BY 'root';
       	GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
-      	FLUSH PRIVILEGES ;
+      	FLUSH PRIVILEGES;
 EOSQL
 
     if ! kill -s TERM "$pid" || ! wait "$pid"; then
