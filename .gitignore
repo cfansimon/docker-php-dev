@@ -1,0 +1,8 @@
+.project/
+.settings/
+.vscode/
+.idea/
+.DS_Store
+!.gitkeep
+report/
+deployment-config.json
