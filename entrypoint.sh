@@ -55,8 +55,8 @@ init_mysql(){
     fi
 
     "${mysql[@]}" <<-EOSQL
-      	CREATE USER 'root'@'%';
-      	GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION;
+      	CREATE USER 'root'@'%' IDENTIFIED BY 'root';
+      	GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
       	FLUSH PRIVILEGES ;
 EOSQL
 
