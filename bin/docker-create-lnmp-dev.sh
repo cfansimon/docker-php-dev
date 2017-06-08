@@ -21,19 +21,6 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# get_random_ssh_port(){
-#     local min=10000
-#     local max=20000
-#     echo `expr $RANDOM % $(($max-$min)) + $min`
-# }
-# 
-# #specify a ssh port
-# is_port_exsit=1
-# while [ -n "$is_port_exsit" ]; do
-#     ssh_port=$(get_random_ssh_port)
-#     is_port_exsit=`lsof -i :${ssh_port} |grep "LISTEN" |awk '{print $1}'`
-# done
-
 #input parameters
 read -p "input domain:" DOMAIN
 
@@ -140,9 +127,8 @@ EOF
 echo "${ip} ${DOMAIN}.local" >> /etc/hosts
 
 echo '****************** login info***********************'
-echo "1. ssh login: ssh root@${DOMAIN}"
-echo "2. mysql login: mysql -h ${DOMAIN}.local -uroot -proot"
-echo "3. docker exec -ti ${DOMAIN} bash"
+echo "1. mysql login: mysql -h ${DOMAIN}.local -uroot -proot"
+echo "2. docker exec -ti ${DOMAIN} bash"
 echo '****************** storage info***********************'
 echo "1. mysql_data: ${mysql_dir}"
 echo "2. www_data: ${www_dir}"
