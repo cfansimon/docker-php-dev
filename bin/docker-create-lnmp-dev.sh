@@ -5,7 +5,7 @@
 ###############
 #!/bin/bash
 
-set -e
+#set -eo pipefail
 
 #check nginx
 NGINX_SITE_ENABLE_DIR='/etc/nginx/sites-enabled'
