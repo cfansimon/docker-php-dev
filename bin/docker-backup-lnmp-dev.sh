@@ -2,6 +2,8 @@
 # This bash is to backup a lnmp-dev docker container's mysql and www data
 #!/bin/bash
 
+set -e
+
 read -p "input the docker container domain:" DOMAIN
 
 if [ -z "$DOMAIN" ]; then

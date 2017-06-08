@@ -5,6 +5,8 @@
 ###############
 #!/bin/bash
 
+set -e
+
 #check nginx
 NGINX_SITE_ENABLE_DIR='/etc/nginx/sites-enabled'
 
