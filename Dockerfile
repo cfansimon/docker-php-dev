@@ -1,6 +1,6 @@
 #FROM ubuntu:12.04.5
 #FROM ubuntu:14.04.5
-FROM ubuntu:16.04.2
+FROM ubuntu:16.04
 
 MAINTAINER Simon Wood <i@wuqian.me>
 
