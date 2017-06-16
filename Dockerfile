@@ -1,5 +1,5 @@
-FROM ubuntu:12.04.5
-# FROM ubuntu:14.04.5
+#FROM ubuntu:12.04.5
+FROM ubuntu:14.04.5
 
 MAINTAINER Simon Wood <wuqian@howzhi.com>
 
@@ -9,7 +9,7 @@ ENV PHP_MAX_UPLOAD      1024M
 ENV PHP_MAX_POST        1024M
 
 #init
-COPY ubuntu/12.04-sources.list /etc/apt/sources.list
+#COPY ubuntu/12.04-sources.list /etc/apt/sources.list
 #COPY ubuntu/14.04-sources.list /etc/apt/sources.list
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
   && echo "Asia/Shanghai" > /etc/timezone
@@ -40,7 +40,7 @@ RUN sed -i "s/;*max_allowed_packet\s*=\s*\w*/max_allowed_packet = 1024M/g" /etc/
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor \
     && apt-get -y autoremove \
     && apt-get clean
-    
+
 COPY supervisor/lnmp.conf /etc/supervisor/conf.d
 
 COPY entrypoint.sh /usr/bin/entrypoint.sh
