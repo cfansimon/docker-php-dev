@@ -74,6 +74,7 @@ disable_commands(){
     bad_commands=(
         '/etc/init.d/mysql'
         '/etc/init.d/php5-fpm'
+        '/etc/init.d/php7.1-fpm'
         '/etc/init.d/nginx'
         '/usr/bin/mysql'
     )
@@ -86,11 +87,9 @@ disable_commands(){
     done
 }
 
-hasInitd=
+hasInitd=false
 if [ -f "/.entrypoint-initd.lock" ]; then
     hasInitd=true
-else
-    hasInitd=false
 fi
 
 if [ !hasInitd ]; then

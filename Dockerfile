@@ -1,7 +1,8 @@
 #FROM ubuntu:12.04.5
-FROM ubuntu:14.04.5
+#FROM ubuntu:14.04.5
+FROM ubuntu:16.04.2
 
-MAINTAINER Simon Wood <wuqian@howzhi.com>
+MAINTAINER Simon Wood <i@wuqian.me>
 
 ENV TIMEZONE            Asia/Shanghai
 ENV PHP_MEMORY_LIMIT    1024M
@@ -11,8 +12,11 @@ ENV PHP_MAX_POST        1024M
 #init
 #COPY ubuntu/12.04-sources.list /etc/apt/sources.list
 #COPY ubuntu/14.04-sources.list /etc/apt/sources.list
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-  && echo "Asia/Shanghai" > /etc/timezone
+RUN apt-get install software-properties-common && DEBIAN_FRONTEND=noninteractive add-apt-repository ppa:ondrej/php \
+    && apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata \
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" > /etc/timezone
 
 #nginx
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y nginx \
@@ -21,23 +25,24 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y nginx \
 COPY nginx/domain.conf /etc/nginx/sites-enabled
 
 #php
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y php5 php5-cli php5-curl php5-fpm php5-intl php5-mcrypt php5-mysqlnd php5-gd \
-    && sed -i "s/;*post_max_size\s*=\s*\w*/post_max_size = ${PHP_MAX_POST}/g" /etc/php5/fpm/php.ini \
-    && sed -i "s/;*memory_limit\s*=\s*\w*/memory_limit = ${PHP_MEMORY_LIMIT}/g" /etc/php5/fpm/php.ini \
-    && sed -i "s/;*upload_max_filesize\s*=\s*\w*/upload_max_filesize = ${PHP_MAX_UPLOAD}/g" /etc/php5/fpm/php.ini \
-    && sed -i "s/;*display_errors\s*=\s*\w*/display_errors = On/g" /etc/php5/fpm/php.ini \
-    && sed -i "s/;*daemonize\s*=\s*yes/daemonize = no/g" /etc/php5/fpm/php-fpm.conf \
-    && sed -i "s/;*listen.owner\s*=\s*www-data/listen.owner = www-data/g" /etc/php5/fpm/pool.d/www.conf \
-    && sed -i "s/;*listen.group\s*=\s*www-data/listen.group = www-data/g" /etc/php5/fpm/pool.d/www.conf \
-    && sed -i "s/;*listen.mode\s*=\s*0660/listen.mode = 0660/g" /etc/php5/fpm/pool.d/www.conf \
-    && sed -i "s/;*listen\s*=\s*\w*/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y php7.1 php7.1-cli php7.1-curl php7.1-fpm php7.1-intl php7.1-mcrypt php7.1-mysqlnd php7.1-gd php7.1-dom \
+    && sed -i "s/;*post_max_size\s*=\s*\w*/post_max_size = ${PHP_MAX_POST}/g" /etc/php/7.1/fpm/php.ini \
+    && sed -i "s/;*memory_limit\s*=\s*\w*/memory_limit = ${PHP_MEMORY_LIMIT}/g" /etc/php/7.1/fpm/php.ini \
+    && sed -i "s/;*upload_max_filesize\s*=\s*\w*/upload_max_filesize = ${PHP_MAX_UPLOAD}/g" /etc/php/7.1/fpm/php.ini \
+    && sed -i "s/;*display_errors\s*=\s*\w*/display_errors = On/g" /etc/php/7.1/fpm/php.ini \
+    && sed -i "s/;*listen.owner\s*=\s*www-data/listen.owner = www-data/g" /etc/php/7.1/fpm/pool.d/www.conf \
+    && sed -i "s/;*listen.group\s*=\s*www-data/listen.group = www-data/g" /etc/php/7.1/fpm/pool.d/www.conf \
+    && sed -i "s/;*listen.mode\s*=\s*0660/listen.mode = 0660/g" /etc/php/7.1/fpm/pool.d/www.conf \
+    && sed -i "s/;*listen\s*=\s*\S*/listen = 127.0.0.1:9000/g" /etc/php/7.1/fpm/pool.d/www.conf \
+    && sed -i "s/;*daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.1/fpm/php-fpm.conf
 
 #mysql
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server-5.6
 RUN sed -i "s/;*max_allowed_packet\s*=\s*\w*/max_allowed_packet = 1024M/g" /etc/mysql/my.cnf
 
 #utils
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install vim \
+    && apt-get install -y supervisor \
     && apt-get -y autoremove \
     && apt-get clean
 
