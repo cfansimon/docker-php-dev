@@ -34,6 +34,7 @@ RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server \
     && sed -i "s/;*max_allowed_packet\s*=\s*\w*/max_allowed_packet = 1024M/g" /etc/mysql/my.cnf \
     && apt-get install -y supervisor \
+    && apt-get install -y vim \
     && apt-get remove -y software-properties-common \
     && apt-get -y autoremove \
     && apt-get -y clean \
