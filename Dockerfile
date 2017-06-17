@@ -12,7 +12,7 @@ RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata \
     && cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
     && echo "${TIMEZONE}" > /etc/timezone \
-    &&apt-get install -y nginx \
+    && apt-get install -y nginx \
     && lineNum=`sed -n -e '/sendfile/=' /etc/nginx/nginx.conf`; sed -i $((lineNum+1))'i client_max_body_size 1024M;' /etc/nginx/nginx.conf \
     && sed -i '1i daemon off;' /etc/nginx/nginx.conf \
     && apt-get install -y php5 php5-cli php5-curl php5-fpm php5-intl php5-mcrypt php5-mysqlnd php5-gd \
