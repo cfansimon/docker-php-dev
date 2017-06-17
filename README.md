@@ -11,16 +11,6 @@
 
 ## 使用方法
 
-### 先看几行Dockerfile中的注释
-
-```
-# 想要用php53开启这行
-# FROM ubuntu:12.04.5
-
-# 想要用php55开启这行
-# FROM ubuntu:14.04.5
-```
-
 ### 前期准备：在物理机上安装docker
 ```
 Ubuntu: https://docs.docker.com/engine/installation/linux/ubuntu/#install-docker
@@ -39,20 +29,20 @@ Mac: brew install nginx
 
 ```bash
 #若由于网络不给力，请自行配合docker加速器
-docker build -t cfansimon/lnmp-dev:5.3 .
+docker build -t cfansimon/php-dev:5.3 .
 ```
 
 ### ubuntu用户，至此可以借助脚本直接运行新容器了
 
 ```bash
-mv docker-create-lnmp-dev.sh /usr/bin/
-chmod +x /usr/bin/docker-create-lnmp-dev.sh
-docker-create-lnmp-dev.sh
+mv docker-create-php-dev.sh /usr/bin/
+chmod +x /usr/bin/docker-create-php-dev.sh
+docker-create-php-dev.sh
 
 输入域名
 输入php版本，默认5.3
 ```
->以后每次需要新建一个开发测试站，只要运行docker-create-lnmp-dev.sh
+>以后每次需要新建一个开发测试站，只要运行docker-create-php-dev.sh
 即可
 
 ### 容器内管理php/mysql/php-fpm
@@ -69,7 +59,7 @@ mysql
 
 ```bash
 mysql -h 域名.local -uroot -proot
-#注意：这是用docker-create-lnmp-dev.sh脚本生成的docker才能用此方式进mysql
+#注意：这是用docker-create-php-dev.sh脚本生成的docker才能用此方式进mysql
 ```
 
 ## 手动配置说明
@@ -102,7 +92,7 @@ docker run --restart=always --name your_domain -tid \
         --ip 172.20.0.2 \
         -e DOMAIN="your_domain" \
         -e IP="172.20.0.2" \
-        cfansimon/lnmp-dev:5.3
+        cfansimon/php-dev:5.3
 ```
 
 参数说明

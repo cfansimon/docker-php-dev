@@ -1,5 +1,5 @@
 ###############
-# This bash is to backup a lnmp-dev docker container's mysql and www data
+# This bash is to backup a php-dev docker container's mysql and www data
 #!/bin/bash
 
 #set -eo pipefail
@@ -20,7 +20,7 @@ fi
 mysql_dir=/var/mysql/${DOMAIN}
 www_dir=/var/www/${DOMAIN}
 if [[ ! -d "$mysql_dir" || ! -d "$www_dir" ]]; then
-    echo >&2 "Error: ${mysql_dir} or ${www_dir} does not exist. Please check if the docker container was runned by docker-create-lnmp-dev.sh"
+    echo >&2 "Error: ${mysql_dir} or ${www_dir} does not exist. Please check if the docker container was runned by docker-create-php-dev.sh"
     exit 1
 fi
 
