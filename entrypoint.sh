@@ -115,9 +115,9 @@ if [ "$hasInitd" = false ]; then
     echo '*************'
 
     echo 'starting...'
-    supervisord -n
 else
     echo 'restart successfully'
-    bash
 fi
+
+supervisord -n
 

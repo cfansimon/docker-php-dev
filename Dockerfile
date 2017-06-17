@@ -20,6 +20,7 @@ RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y nginx \
     && lineNum=`sed -n -e '/sendfile/=' /etc/nginx/nginx.conf`; sed -i $((lineNum+1))'i client_max_body_size 1024M;' /etc/nginx/nginx.conf \
     && sed -i '1i daemon off;' /etc/nginx/nginx.conf \
+    && sed -i "s/;*worker_processes\s*\w*/worker_processes 4/g" /etc/nginx/nginx.conf \
     && apt-get install -y php7.1 php7.1-cli php7.1-curl php7.1-fpm php7.1-intl php7.1-mcrypt php7.1-mysqlnd php7.1-gd php7.1-dom \
     && sed -i "s/;*post_max_size\s*=\s*\w*/post_max_size = ${PHP_MAX_POST}/g" /etc/php/7.1/fpm/php.ini \
     && sed -i "s/;*memory_limit\s*=\s*\w*/memory_limit = ${PHP_MEMORY_LIMIT}/g" /etc/php/7.1/fpm/php.ini \
@@ -31,7 +32,6 @@ RUN apt-get update \
     && sed -i "s/;*listen\s*=\s*\S*/listen = 127.0.0.1:9000/g" /etc/php/7.1/fpm/pool.d/www.conf \
     && sed -i "s/;*daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.1/fpm/php-fpm.conf \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server \
-    && mkdir /var/run/mysqld && chown -R mysql:root /var/run/mysqld \
     && sed -i "s/;*max_allowed_packet\s*=\s*\w*/max_allowed_packet = 1024M/g" /etc/mysql/my.cnf \
     && apt-get install -y supervisor \
     && apt-get remove -y software-properties-common \
