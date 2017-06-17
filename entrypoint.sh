@@ -26,6 +26,8 @@ init_mysql(){
     sed -i "s/#*socket\s*=\s*\w*/socket = ${socket}/g" /etc/mysql/my.cnf
     
     echo 'Initializing database'
+    mkdir /var/run/mysqld
+    chown -R mysql:root /var/run/mysqld
     rm -rf /var/lib/mysql/*
     mysqld --initialize-insecure
     echo 'Database initialized'
@@ -93,12 +95,12 @@ if [ -f "/.entrypoint-initd.lock" ]; then
     hasInitd=true
 fi
 
-if [ ! $hasInitd ]; then
+if [ "$hasInitd" = false ]; then
     touch /.entrypoint-initd.lock
     
     #add host
     echo "${IP} ${DOMAIN}.local" >> /etc/hosts
-    
+    mkdir /var/run/php
     init_nginx
     init_mysql
     disable_commands
