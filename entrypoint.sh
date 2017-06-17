@@ -91,7 +91,7 @@ if [ -f "/.entrypoint-initd.lock" ]; then
     hasInitd=true
 fi
 
-if [ ! $hasInitd ]; then
+if [ "$hasInitd" = false ]; then
     touch /.entrypoint-initd.lock
     
     #add host
@@ -107,8 +107,9 @@ if [ ! $hasInitd ]; then
     echo '*************'
 
     echo 'starting...'
-    supervisord -n
+    
 else
-    bash
+    echo 'restarted successfully'
 fi
+supervisord -n
 
