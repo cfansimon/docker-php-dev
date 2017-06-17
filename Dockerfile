@@ -7,7 +7,6 @@ ENV PHP_MEMORY_LIMIT    1024M
 ENV PHP_MAX_UPLOAD      1024M
 ENV PHP_MAX_POST        1024M
 
-#init
 #COPY ubuntu/16.04-sources.list /etc/apt/sources.list
 RUN apt-get update \
     && apt-get install -y language-pack-en-base \
