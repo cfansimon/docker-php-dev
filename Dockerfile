@@ -45,13 +45,14 @@ RUN apt-get install -y php7.1 php7.1-cli php7.1-curl php7.1-fpm php7.1-intl php7
     && sed -i "s/;*listen\s*=\s*\S*/listen = 127.0.0.1:9000/g" /etc/php/7.1/fpm/pool.d/www.conf \
     && sed -i "s/;*daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.1/fpm/php-fpm.conf \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server \
+    && mkdir /var/run/mysqld && chown -R mysql:root /var/run/mysqld \
     && sed -i "s/;*max_allowed_packet\s*=\s*\w*/max_allowed_packet = 1024M/g" /etc/mysql/my.cnf \
     && apt-get install -y vim \
     && apt-get install -y supervisor \
     && apt-get -y autoremove \
     && apt-get clean
 
-COPY supervisor/lnmp.conf /etc/supervisor/conf.d
+COPY supervisor/php_dev.conf /etc/supervisor/conf.d
 
 COPY entrypoint.sh /usr/bin/entrypoint.sh
 RUN chmod +x /usr/bin/entrypoint.sh
