@@ -11,16 +11,6 @@
 
 ## 使用方法
 
-### 先看几行Dockerfile中的注释
-
-```
-# 想要用php53开启这行
-# FROM ubuntu:12.04.5
-
-# 想要用php55开启这行
-# FROM ubuntu:14.04.5
-```
-
 ### 前期准备：在物理机上安装docker
 ```
 Ubuntu: https://docs.docker.com/engine/installation/linux/ubuntu/#install-docker
