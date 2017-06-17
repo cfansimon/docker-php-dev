@@ -26,7 +26,8 @@ init_mysql(){
     sed -i "s/#*socket\s*=\s*\w*/socket = ${socket}/g" /etc/mysql/my.cnf
     
     echo 'Initializing database'
-    mysql_install_db
+    rm -rf /var/lib/mysql/*
+    mysqld --initialize-insecure
     echo 'Database initialized'
     
     mysqld --skip-networking --socket="${socket}" &
@@ -36,7 +37,7 @@ init_mysql(){
 
     mysql=( mysql --protocol=socket -uroot -hlocalhost --socket="${socket}" )
 
-    for i in {30..0}; do
+    for i in {15..0}; do
       	if echo 'SELECT 1' | "${mysql[@]}" &> /dev/null; then
       		  break
       	fi
@@ -55,7 +56,7 @@ init_mysql(){
     fi
 
     "${mysql[@]}" <<-EOSQL
-        UPDATE mysql.user SET Password=PASSWORD("root") WHERE user='root';
+        UPDATE mysql.user SET authentication_string=PASSWORD("root") WHERE user='root';
       	CREATE USER 'root'@'%' IDENTIFIED BY 'root';
       	GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
       	FLUSH PRIVILEGES;

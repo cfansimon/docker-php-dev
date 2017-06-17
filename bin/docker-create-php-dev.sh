@@ -98,6 +98,7 @@ docker run --restart=always --name ${DOMAIN} -tid \
         --network ${NETWORK} \
         --ip ${ip} \
         -e DOMAIN="${DOMAIN}" \
+        -e MYSQL_DATABASE="${DOMAIN}" \
         -e IP="${ip}" \
         cfansimon/docker-php-dev:${VERSION}
 
