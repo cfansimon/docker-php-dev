@@ -42,7 +42,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y php7.1 php7.1-cli php7.1-c
     && sed -i "s/;*daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.1/fpm/php-fpm.conf
 
 #mysql
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server-5.6
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server
 RUN sed -i "s/;*max_allowed_packet\s*=\s*\w*/max_allowed_packet = 1024M/g" /etc/mysql/my.cnf
 
 #utils
