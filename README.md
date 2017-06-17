@@ -39,7 +39,7 @@ Mac: brew install nginx
 
 ```bash
 #若由于网络不给力，请自行配合docker加速器
-docker build -t cfansimon/lnmp-dev:5.3 .
+docker build -t cfansimon/docker-php-dev:5.3 .
 ```
 
 ### ubuntu用户，至此可以借助脚本直接运行新容器了
@@ -102,7 +102,7 @@ docker run --restart=always --name your_domain -tid \
         --ip 172.20.0.2 \
         -e DOMAIN="your_domain" \
         -e IP="172.20.0.2" \
-        cfansimon/lnmp-dev:5.3
+        cfansimon/docker-php-dev:5.3
 ```
 
 参数说明

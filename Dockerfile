@@ -1,5 +1,5 @@
-#FROM ubuntu:12.04.5
-FROM ubuntu:14.04.5
+FROM ubuntu:12.04.5
+#FROM ubuntu:14.04.5
 
 MAINTAINER Simon Wood <wuqian@howzhi.com>
 
