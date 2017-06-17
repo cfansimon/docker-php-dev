@@ -1,7 +1,7 @@
 ###############
 # This bash is to run a new lnmp-dev docker container and inject a nginx `proxy_pass` configuration in host's nginx if exists
 # prepared yourself:
-# 1. docker network create --gateway 172.30.0.1 --subnet 172.30.0.0/16 lnmp_dev
+# 1. docker network create --gateway 172.30.0.1 --subnet 172.30.0.0/16 php_dev
 ###############
 #!/bin/bash
 
@@ -37,7 +37,7 @@ if [ -z "$VERSION" ]; then
 fi
 
 #hardcode a network name
-NETWORK='lnmp_dev'
+NETWORK='php_dev'
 
 get_random_ip_int(){
     local ip_int=`expr $RANDOM % 254`
@@ -69,7 +69,7 @@ if [ -z "$is_network_exist" ]; then
         gateway=$(get_random_ip 172.x.0.1)
         subnet=$(get_random_ip 172.x.0.0)
         # todo check if gateway exsit
-        docker network create --gateway ${gateway} --subnet ${subnet}/16 lnmp_dev
+        docker network create --gateway ${gateway} --subnet ${subnet}/16 php_dev
     done
 else
     gateway=`docker network inspect ${NETWORK} |grep -e Gateway |awk -F '\"' '{print $4}'`
