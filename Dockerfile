@@ -14,6 +14,9 @@ ENV PHP_MAX_POST        1024M
 #COPY ubuntu/14.04-sources.list /etc/apt/sources.list
 #COPY ubuntu/16.04-sources.list /etc/apt/sources.list
 RUN apt-get update \
+    && apt-get install -y language-pack-en-base \
+    && export LC_ALL=en_US.UTF-8 \
+    && export LANG=en_US.UTF-8 \
     && apt-get install -y software-properties-common && DEBIAN_FRONTEND=noninteractive add-apt-repository ppa:ondrej/php \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata \
