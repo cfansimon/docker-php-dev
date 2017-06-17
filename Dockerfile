@@ -25,10 +25,10 @@ RUN apt-get update \
     && sed -i "s/;*listen.group\s*=\s*www-data/listen.group = www-data/g" /etc/php5/fpm/pool.d/www.conf \
     && sed -i "s/;*listen.mode\s*=\s*0660/listen.mode = 0660/g" /etc/php5/fpm/pool.d/www.conf \
     && sed -i "s/;*listen\s*=\s*\w*/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server
-    sed -i "s/;*max_allowed_packet\s*=\s*\w*/max_allowed_packet = 1024M/g" /etc/mysql/my.cnf \
-    && apt-get install -y vim \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server \
+    && sed -i "s/;*max_allowed_packet\s*=\s*\w*/max_allowed_packet = 1024M/g" /etc/mysql/my.cnf \
     && apt-get install -y supervisor \
+    && apt-get install -y vim \
     && apt-get -y autoremove \
     && apt-get clean
 
