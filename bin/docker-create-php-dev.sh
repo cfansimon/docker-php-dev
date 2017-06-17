@@ -29,7 +29,7 @@ if [ -z "$DOMAIN" ]; then
     exit 1
 fi
 
-read -p "input php version (support 5.3 or 5.5):" VERSION
+read -p "input php version (support 5.3/5.5/7.1):" VERSION
 
 if [ -z "$VERSION" ]; then
   echo >&2 'Error: please input php version'
