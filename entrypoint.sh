@@ -93,7 +93,7 @@ if [ -f "/.entrypoint-initd.lock" ]; then
     hasInitd=true
 fi
 
-if [ !hasInitd ]; then
+if [ ! $hasInitd ]; then
     touch /.entrypoint-initd.lock
     
     #add host

@@ -39,7 +39,7 @@ Mac: brew install nginx
 
 ```bash
 #若由于网络不给力，请自行配合docker加速器
-docker build -t cfansimon/docker-php-dev:5.3 .
+docker build -t cfansimon/docker-php-dev:7.1 .
 ```
 
 ### ubuntu用户，至此可以借助脚本直接运行新容器了
@@ -50,7 +50,7 @@ chmod +x /usr/bin/docker-create-php-dev.sh
 docker-create-php-dev.sh
 
 输入域名
-输入php版本，默认5.3
+输入php版本
 ```
 >以后每次需要新建一个开发测试站，只要运行docker-create-php-dev.sh
 即可
@@ -101,6 +101,7 @@ docker run --restart=always --name your_domain -tid \
         --network php_dev \
         --ip 172.20.0.2 \
         -e DOMAIN="your_domain" \
+        -e MYSQL_DATABASE="your_domain" \
         -e IP="172.20.0.2" \
         cfansimon/docker-php-dev:5.3
 ```

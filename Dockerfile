@@ -1,5 +1,3 @@
-#FROM ubuntu:12.04.5
-#FROM ubuntu:14.04.5
 FROM ubuntu:16.04
 
 MAINTAINER Simon Wood <i@wuqian.me>
@@ -10,8 +8,6 @@ ENV PHP_MAX_UPLOAD      1024M
 ENV PHP_MAX_POST        1024M
 
 #init
-#COPY ubuntu/12.04-sources.list /etc/apt/sources.list
-#COPY ubuntu/14.04-sources.list /etc/apt/sources.list
 #COPY ubuntu/16.04-sources.list /etc/apt/sources.list
 RUN apt-get update \
     && apt-get install -y language-pack-en-base \
@@ -20,21 +16,12 @@ RUN apt-get update \
     && apt-get install -y software-properties-common && DEBIAN_FRONTEND=noninteractive add-apt-repository ppa:ondrej/php \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata \
-    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && echo "Asia/Shanghai" > /etc/timezone \
-    && apt-get -y autoremove \
-    && apt-get clean
-
-#nginx
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y nginx \
+    && cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
+    && echo "${TIMEZONE}" > /etc/timezone \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y nginx \
     && lineNum=`sed -n -e '/sendfile/=' /etc/nginx/nginx.conf`; sed -i $((lineNum+1))'i client_max_body_size 1024M;' /etc/nginx/nginx.conf \
     && sed -i '1i daemon off;' /etc/nginx/nginx.conf \
-    && apt-get -y autoremove \
-    && apt-get clean
-COPY nginx/domain.conf /etc/nginx/sites-enabled
-
-#php
-RUN apt-get install -y php7.1 php7.1-cli php7.1-curl php7.1-fpm php7.1-intl php7.1-mcrypt php7.1-mysqlnd php7.1-gd php7.1-dom \
+    && apt-get install -y php7.1 php7.1-cli php7.1-curl php7.1-fpm php7.1-intl php7.1-mcrypt php7.1-mysqlnd php7.1-gd php7.1-dom \
     && sed -i "s/;*post_max_size\s*=\s*\w*/post_max_size = ${PHP_MAX_POST}/g" /etc/php/7.1/fpm/php.ini \
     && sed -i "s/;*memory_limit\s*=\s*\w*/memory_limit = ${PHP_MEMORY_LIMIT}/g" /etc/php/7.1/fpm/php.ini \
     && sed -i "s/;*upload_max_filesize\s*=\s*\w*/upload_max_filesize = ${PHP_MAX_UPLOAD}/g" /etc/php/7.1/fpm/php.ini \
@@ -47,13 +34,14 @@ RUN apt-get install -y php7.1 php7.1-cli php7.1-curl php7.1-fpm php7.1-intl php7
     && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server \
     && mkdir /var/run/mysqld && chown -R mysql:root /var/run/mysqld \
     && sed -i "s/;*max_allowed_packet\s*=\s*\w*/max_allowed_packet = 1024M/g" /etc/mysql/my.cnf \
-    && apt-get install -y vim \
     && apt-get install -y supervisor \
+    && apt-get remove software-properties-common \
     && apt-get -y autoremove \
-    && apt-get clean
+    && apt-get clean \
+    && apt-get autoclean
 
+COPY nginx/domain.conf /etc/nginx/sites-enabled
 COPY supervisor/php_dev.conf /etc/supervisor/conf.d
-
 COPY entrypoint.sh /usr/bin/entrypoint.sh
 RUN chmod +x /usr/bin/entrypoint.sh
 
