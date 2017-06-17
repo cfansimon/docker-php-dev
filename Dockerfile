@@ -29,7 +29,7 @@ RUN apt-get update \
     && sed -i "s/;*max_allowed_packet\s*=\s*\w*/max_allowed_packet = 1024M/g" /etc/mysql/my.cnf \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor \
     && apt-get -y vim \
-    && apt-get -y autoremove \
+    && apt-get autoremove \
     && apt-get clean
 
 COPY nginx/domain.conf /etc/nginx/sites-enabled
