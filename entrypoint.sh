@@ -86,14 +86,12 @@ disable_commands(){
     done
 }
 
-hasInitd=
+hasInitd=false
 if [ -f "/.entrypoint-initd.lock" ]; then
     hasInitd=true
-else
-    hasInitd=false
 fi
 
-if [ !hasInitd ]; then
+if [ ! $hasInitd ]; then
     touch /.entrypoint-initd.lock
     
     #add host
