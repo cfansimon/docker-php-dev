@@ -28,8 +28,8 @@ RUN apt-get update \
     && apt-get install -y mysql-server \
     && sed -i "s/;*max_allowed_packet\s*=\s*\w*/max_allowed_packet = 1024M/g" /etc/mysql/my.cnf \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor \
-    && apt-get -y vim \
-    && apt-get autoremove \
+    && apt-get install -y vim \
+    && apt-get -y autoremove \
     && apt-get clean
 
 COPY nginx/domain.conf /etc/nginx/sites-enabled
