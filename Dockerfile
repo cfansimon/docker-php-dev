@@ -35,7 +35,7 @@ RUN apt-get update \
     && mkdir /var/run/mysqld && chown -R mysql:root /var/run/mysqld \
     && sed -i "s/;*max_allowed_packet\s*=\s*\w*/max_allowed_packet = 1024M/g" /etc/mysql/my.cnf \
     && apt-get install -y supervisor \
-    && apt-get remove software-properties-common \
+    && apt-get remove -y software-properties-common \
     && apt-get -y autoremove \
     && apt-get clean \
     && apt-get autoclean
