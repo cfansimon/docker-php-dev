@@ -21,12 +21,16 @@ RUN apt-get update \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && echo "Asia/Shanghai" > /etc/timezone
+    && echo "Asia/Shanghai" > /etc/timezone \
+    && apt-get -y autoremove \
+    && apt-get clean
 
 #nginx
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y nginx \
     && lineNum=`sed -n -e '/sendfile/=' /etc/nginx/nginx.conf`; sed -i $((lineNum+1))'i client_max_body_size 1024M;' /etc/nginx/nginx.conf \
-    && sed -i '1i daemon off;' /etc/nginx/nginx.conf
+    && sed -i '1i daemon off;' /etc/nginx/nginx.conf \
+    && apt-get -y autoremove \
+    && apt-get clean
 COPY nginx/domain.conf /etc/nginx/sites-enabled
 
 #php
@@ -39,14 +43,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y php7.1 php7.1-cli php7.1-c
     && sed -i "s/;*listen.group\s*=\s*www-data/listen.group = www-data/g" /etc/php/7.1/fpm/pool.d/www.conf \
     && sed -i "s/;*listen.mode\s*=\s*0660/listen.mode = 0660/g" /etc/php/7.1/fpm/pool.d/www.conf \
     && sed -i "s/;*listen\s*=\s*\S*/listen = 127.0.0.1:9000/g" /etc/php/7.1/fpm/pool.d/www.conf \
-    && sed -i "s/;*daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.1/fpm/php-fpm.conf
-
-#mysql
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server
-RUN sed -i "s/;*max_allowed_packet\s*=\s*\w*/max_allowed_packet = 1024M/g" /etc/mysql/my.cnf
-
-#utils
-RUN DEBIAN_FRONTEND=noninteractive apt-get install vim \
+    && sed -i "s/;*daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.1/fpm/php-fpm.conf \
+    && apt-get install -y mysql-server \
+    && sed -i "s/;*max_allowed_packet\s*=\s*\w*/max_allowed_packet = 1024M/g" /etc/mysql/my.cnf \
+    && apt-get install -y vim \
     && apt-get install -y supervisor \
     && apt-get -y autoremove \
     && apt-get clean
