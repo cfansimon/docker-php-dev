@@ -17,7 +17,13 @@ init_nginx(){
 
 init_mysql(){
     
-    local socket='/var/run/mysqld/mysqld.sock'
+    local socketDir="/var/run/mysqld"
+    if [ ! -d "$socketDir" ]; then  
+        mkdir ${socketDir}
+        chown -R mysql:root ${socketDir}
+    fi
+    
+    local socket="${socketDir}/mysqld.sock"
   
     #init datadir if mount dir outside to /var/lib/mysql
     sed -i "s/user\s*=\s*debian-sys-maint/user = root/g" /etc/mysql/debian.cnf
@@ -26,8 +32,6 @@ init_mysql(){
     sed -i "s/#*socket\s*=\s*\w*/socket = ${socket}/g" /etc/mysql/my.cnf
     
     echo 'Initializing database'
-    mkdir /var/run/mysqld
-    chown -R mysql:root /var/run/mysqld
     rm -rf /var/lib/mysql/*
     mysqld --initialize-insecure
     echo 'Database initialized'
@@ -113,6 +117,7 @@ if [ "$hasInitd" = false ]; then
     echo 'starting...'
     supervisord -n
 else
+    echo 'restart successfully'
     bash
 fi
 
