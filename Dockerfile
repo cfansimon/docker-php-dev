@@ -37,8 +37,8 @@ RUN apt-get update \
     && apt-get install -y supervisor \
     && apt-get remove -y software-properties-common \
     && apt-get -y autoremove \
-    && apt-get clean \
-    && apt-get autoclean
+    && apt-get -y clean \
+    && apt-get -y autoclean
 
 COPY nginx/domain.conf /etc/nginx/sites-enabled
 COPY supervisor/php_dev.conf /etc/supervisor/conf.d
