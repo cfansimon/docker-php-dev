@@ -1,5 +1,5 @@
 ###############
-# This bash is to run a new lnmp-dev docker container and inject a nginx `proxy_pass` configuration in host's nginx if exists
+# This bash is to run a new php-dev docker container and inject a nginx `proxy_pass` configuration in host's nginx if exists
 # prepared yourself:
 # 1. docker network create --gateway 172.30.0.1 --subnet 172.30.0.0/16 php_dev
 ###############
@@ -99,7 +99,7 @@ docker run --restart=always --name ${DOMAIN} -tid \
         --ip ${ip} \
         -e DOMAIN="${DOMAIN}" \
         -e IP="${ip}" \
-        cfansimon/lnmp-dev:${VERSION}
+        cfansimon/docker-php-dev:${VERSION}
 
 #inject nginx config
 host='$host'

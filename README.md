@@ -67,15 +67,15 @@ mysql -h 域名.local -uroot -proot
 ### 先创建一个网络，以便固定住容器的ip
 
 ```bash
-docker network create --gateway 172.20.0.1 --subnet 172.20.0.0/16 lnmp_dev
-docker network inspect lnmp_dev
+docker network create --gateway 172.20.0.1 --subnet 172.20.0.0/16 php_dev
+docker network inspect php_dev
 ```
 
 参数说明
 
 * `--gateway 172.20.0.1`: 为新网络指定一个网关地址
 * `--subnet 172.20.0.0/16`: 设置子网掩码
-* `lnmp_dev`: 新网络的名称
+* `php_dev`: 新网络的名称
 
 > ***注意: 网络一般常见一次就够了，多个容器都挂到这个网络下即可***
 
@@ -88,7 +88,7 @@ rm -rf /var/mysql/your_domain/* && \
 docker run --restart=always --name your_domain -tid \
         -v /var/mysql/your_domain:/var/lib/mysql \
         -v /var/www/your_domain:/var/www/your_domain \
-        --network lnmp_dev \
+        --network php_dev \
         --ip 172.20.0.2 \
         -e DOMAIN="your_domain" \
         -e IP="172.20.0.2" \
@@ -100,7 +100,7 @@ docker run --restart=always --name your_domain -tid \
 * `-v /var/mysql/your_domain:/var/lib/mysql`: 把一个本机目录映射到容器中的mysql数据目录，以便保证数据库数据不会丢失
 * `-v /var/www/your_domain:/var/www/your_domain`: 映射代码目录，以便在本机用sublime做开发，文件是软连接形式映射
 * `--name your_domain`: 指定域名为容器的名字，便于管理
-* `--network lnmp_dev`: 指定在前一步你创建好的网络名称
+* `--network php_dev`: 指定在前一步你创建好的网络名称
 * `--ip 172.20.0.2`: 为新容器分配一个固定IP，以便在本机做80端口转发
 * `-e DOMAIN="your_domain"`: 指定域名
 * `-e IP="172.20.0.2"`: 再次指定一下新容器的IP
