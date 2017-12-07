@@ -21,6 +21,8 @@ RUN apt-get update \
     && lineNum=`sed -n -e '/sendfile/=' /etc/nginx/nginx.conf`; sed -i $((lineNum+1))'i client_max_body_size 1024M;' /etc/nginx/nginx.conf \
     && sed -i '1i daemon off;' /etc/nginx/nginx.conf \
     && sed -i "s/;*worker_processes\s*\w*/worker_processes 4/g" /etc/nginx/nginx.conf \
+    && lineNum=`sed -n -e '/access_log/=' /etc/nginx/nginx.conf`; sed -i $((lineNum-1))'i log_format proxy '\''$http_x_forwarded_for - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent"'\'';' /etc/nginx/nginx.conf \
+    && sed -i "s/access_log \/var\/log\/nginx\/access.log;/access_log \/var\/log\/nginx\/access.log proxy;/g" /etc/nginx/nginx.conf \
     && apt-get install -y php7.1 php7.1-cli php7.1-curl php7.1-fpm php7.1-intl php7.1-mcrypt php7.1-mysqlnd php7.1-gd php7.1-dom \
     && sed -i "s/;*post_max_size\s*=\s*\w*/post_max_size = ${PHP_MAX_POST}/g" /etc/php/7.1/fpm/php.ini \
     && sed -i "s/;*memory_limit\s*=\s*\w*/memory_limit = ${PHP_MEMORY_LIMIT}/g" /etc/php/7.1/fpm/php.ini \
